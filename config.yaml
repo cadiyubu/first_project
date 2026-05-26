@@ -1,7 +1,0 @@
-input_data:
-  file1: "../data/raw/energy_co2_data.csv"
-  file2: "../data/raw/e_co2_codebook.csv"
-  file3: "../data/raw/wregion_mapping.csv"
-
-output_data:
-  file1: "../data/clean/energy_co2_data_cleaned.csv"
