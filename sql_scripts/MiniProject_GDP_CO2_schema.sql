@@ -1,0 +1,93 @@
+CREATE TABLE IF NOT EXISTS `fact_energy` (
+	`ener_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`prct_access_elec` FLOAT NOT NULL,
+	`prim_ener_cons` FLOAT NOT NULL,
+	`prct_renew_prod` FLOAT NOT NULL,
+	`prct_renew_cons` FLOAT NOT NULL,
+	PRIMARY KEY(`ener_id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `fact_emissions` (
+	`emi_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`co2` FLOAT NOT NULL,
+	`co2_luc` FLOAT NOT NULL,
+	PRIMARY KEY(`emi_id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `fact_economy` (
+	`eco_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`population` FLOAT NOT NULL,
+	`gdp` FLOAT NOT NULL,
+	`gdp_per_cap` FLOAT NOT NULL,
+	PRIMARY KEY(`eco_id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `country` (
+	`country_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`country_name` VARCHAR(255) NOT NULL,
+	`iso_code` VARCHAR(255) NOT NULL,
+	`region_id` BIGINT NOT NULL,
+	PRIMARY KEY(`country_id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `cont_region` (
+	`region_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`region` VARCHAR(255) NOT NULL,
+	`ener_id` BIGINT NOT NULL,
+	`emi_id` BIGINT NOT NULL,
+	`eco_id` BIGINT NOT NULL,
+	PRIMARY KEY(`region_id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `country_year` (
+	`y_id` INTEGER UNSIGNED NOT NULL AUTO_INCREMENT,
+	`year` INTEGER NOT NULL,
+	`country_id` BIGINT NOT NULL,
+	`year_id` BIGINT NOT NULL,
+	PRIMARY KEY(`y_id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `year` (
+	`year_id` BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+	`year` INTEGER NOT NULL,
+	`region_id` BIGINT NOT NULL,
+	`ener_id` BIGINT NOT NULL,
+	`emi_id` BIGINT NOT NULL,
+	`eco_id` BIGINT NOT NULL,
+	PRIMARY KEY(`year_id`)
+);
+
+
+ALTER TABLE `country`
+ADD FOREIGN KEY(`region_id`) REFERENCES `cont_region`(`region_id`)
+ON UPDATE NO ACTION ON DELETE NO ACTION;
+ALTER TABLE `cont_region`
+ADD FOREIGN KEY(`ener_id`) REFERENCES `fact_energy`(`ener_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `cont_region`
+ADD FOREIGN KEY(`emi_id`) REFERENCES `fact_emissions`(`emi_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `cont_region`
+ADD FOREIGN KEY(`eco_id`) REFERENCES `fact_economy`(`eco_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `year`
+ADD FOREIGN KEY(`ener_id`) REFERENCES `fact_energy`(`ener_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `year`
+ADD FOREIGN KEY(`emi_id`) REFERENCES `fact_emissions`(`emi_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `year`
+ADD FOREIGN KEY(`eco_id`) REFERENCES `fact_economy`(`eco_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `country_year`
+ADD FOREIGN KEY(`country_id`) REFERENCES `country`(`country_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
+ALTER TABLE `country_year`
+ADD FOREIGN KEY(`year_id`) REFERENCES `year`(`year_id`)
+ON UPDATE CASCADE ON DELETE CASCADE;
