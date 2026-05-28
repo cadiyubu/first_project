@@ -2,7 +2,7 @@
 
 **Module 1 Capstone — Data Wrangling & Retrieval | Ironhack Data Analytics Bootcamp**  
 **Team:** Diana Yule · Irene Fafian  
-**Week:** 4 | **Status:** 📊 EDA Complete (H1 & H2) | H3 Pending
+**Week:** 4 | **Status:** 📊 EDA Complete (H1, H2 & H3)
 
 ---
 
@@ -10,7 +10,7 @@
 
 Can countries grow their economies without growing their carbon footprint?
 
-This project investigates whether countries are successfully **decoupling GDP growth from CO₂ emissions** — one of the defining questions of the post-Paris Agreement era. Using global emissions, energy production and consumption, GDP, and electricity access data spanning 2014–2024, we clean build, clean, and analyse a unified dataset to test this question accross world region.
+This project investigates whether countries are successfully **decoupling GDP growth from CO₂ emissions** — one of the defining questions of the post-Paris Agreement era. Using global emissions, energy production and consumption, GDP, and electricity access data spanning 2014–2024, we clean, build, and analyse a unified dataset to test this question across world regions.
 
 The analysis uses the **post-Paris Agreement window (2014–2020)** as the evaluation frame — a period where climate policy momentum should, in theory, be visible in the data. The three hypotheses below move from diagnosis (is decoupling happening?) to mechanism (what explains it?) to consequence (who actually bears the cost?).
 
@@ -27,21 +27,22 @@ Metric: `co2_luc_int = co2_luc / GDP` (Scenario B — full footprint including l
 > If decoupling holds in Scenario A but weakens in Scenario B → high-income countries shifted emissions, not eliminated them.
 
 ### Hypothesis 2 — Renewable Penetration as the Mechanism
-> **Which regions show evidence that renewable penetration explains CO₂ intensity decline and where is the gap largest?**
+> **Which regions show evidence that renewable penetration explains CO₂ intensity decline — and where is the gap largest?**
 
-Following Hypothesis 1, this asks *why* intensity fell (or didn't): is renewable adoption the driver?  
-Metrics: `d_co2_int` (annual Δ CO₂ intensity) vs `d_renew_share` (annual Δ renewable consumption share).
+Following Hypothesis 1, is renewable adoption the driver?  
+Metrics: `co2_int`vs `renew_share` (prct_renew_prod &. prct_renw_cons).
 
 ### Hypothesis 3 — Electricity Access & CO₂
 > **Do high CO₂ emissions always reflect development and improved living standards, or can they coexist with energy poverty?**
 
 Metrics:
-- gdp_per_cap vs prct_access_elec → Tests whether richer countries and regions tend to have better electricity access.
-- gdp_group vs prct_access_elec → Compares poor, middle-income, and rich countries to see whether development is associated with higher access, total emissions, and personal carbon footprints.
-- co2 (total, not per capita) vs prct_access_elec → Identifies countries with high total emissions but below-median electricity access.
-- co2_per_cap as a control → Helps distinguish between countries where emissions are high because individuals consume a lot, and countries where total emissions are high mainly because of population size or industrial scale.
+- `gdp_per_cap` vs `prct_access_elec` — does richer = better electricity access?
+- `gdp_group` (quartiles) vs `prct_access_elec`, `co2`, `co2_per_cap` — comparing wealth groups on access, total emissions, and personal carbon footprint
+- `co2` (total, above median) vs `prct_access_elec` (below median) — identifies countries with high total emissions but limited electricity access
+- `co2_per_cap` as a control — distinguishes individual consumption from population/industrial scale
+- `welfare_ratio = co2_per_cap / (prct_access_elec / 100)` — CO₂ cost per unit of electricity benefit received
 
->If countries with low or middle gdp_per_cap and below-median prct_access_elec still show significant total co2, then emissions are not necessarily translating into universal energy access. If co2_per_cap emains relatively low in those same countries, the pattern suggests that the carbon burden is spread across a large population that may not be receiving proportional welfare benefits.
+> If countries with low/middle GDP per capita and below-median electricity access still show significant total CO₂, then emissions are not translating into universal energy access — the carbon burden is spread across a population that isn't receiving proportional welfare benefits.
 
 ---
 
@@ -54,7 +55,6 @@ Metrics:
 | `world_bank_energy.csv` | Access to electricity (%), renewable energy production (%), renewable energy consumption (%), renewable production (kWh) — World Bank | [World Bank Open Data](https://data.worldbank.org/) | Web scraping / API |
 | `UN_GDP.csv` | GDP at current prices (US$) per country 2014–2020 | [UN Stats — National Accounts Main Aggregates](https://unstats.un.org/unsd/snaama/Basic) | Direct download |
 | `UN_Population.csv` | Population per country 2014–2024 | [UN Stats — National Accounts Main Aggregates](https://unstats.un.org/unsd/snaama/Basic) | Direct download |
-| `world_bank_energy.csv` | Access to electricity (%), renewable energy production (%), renewable energy consumption (%) per country | [World Bank DataBank — World Development Indicators](https://databank.worldbank.org/reports.aspx?source=2&series=EG.ELC.ACCS.UR.ZS) | Direct download |
 | `world_bank_car.csv` | GDP, GDP per capita and population for Central African Republic (gap-fill) | [World Bank DataBank — World Development Indicators](https://databank.worldbank.org/reports.aspx?source=2&series=SP.POP.TOTL&country=CAF) | Direct download |
 
 ---
@@ -62,6 +62,8 @@ Metrics:
 ## Project Management
 
 📋 **Kanban Board:** [Trello — Data Wrangling Project Week 4](https://trello.com/invite/b/6a140a85c4baf8ce1b4b4c33/ATTI34b2ec4474650fcb84d88b3223c983ce1D21A984/my-trello-board)
+
+**Presentation slides:** (https://docs.google.com/presentation/d/1aJ232in5u8-AgMorOHoGvTn6O2CPokLlSJ3kl4j82EU/edit?usp=drive_link)
 
 ---
 
@@ -78,14 +80,15 @@ first_project/
 │   ├── raw/                          # Original unmodified source files
 │   └── clean/                        # Processed outputs (merged_final.csv etc.)
 ├── notebooks/
-│   ├── raw_eCO2data_cleaning_Diana.ipynb   # Diana: OWID CO₂ data cleaning + region mapping
-│   ├── wrangle_clean_irene.ipynb           # Irene: GDP, population, renewables cleaning
-│   ├── final_clean_merge.ipynb             # Team: final merge + country name harmonisation
-│   ├── eda_hypothesis_testing_Diana.ipynb  # Diana: EDA, CO₂ intensity, hypothesis testing
-│   └── functions.py                        # Shared reusable helper functions
+│   ├── raw_eCO2data_cleaning_Diana.ipynb      # OWID CO₂ data cleaning + region mapping
+│   ├── wrangle_clean_irene.ipynb              # GDP, population, renewables cleaning
+│   ├── final_clean_merge.ipynb                # final merge + country name harmonisation
+│   ├── eda_hypothesis_testing_Diana.ipynb     # EDA, CO₂ intensity, H1 & H2
+│   ├── eda_hypothesis_testing_irene.ipynb     # EDA, electricity access, H3
+│   └── functions.py                           # Shared reusable helper functions
 ├── figures/                          # Generated plots and visualisations
 ├── slides/
-│   └── project_presentation.pptx
+│   └── project_presentation slides    # presentation
 └── sql_scripts/
     ├── ERD_Miro.png                  # Entity-Relationship Diagram (Miro)
     └── MiniProject_GDP_CO2_schema.sql # SQL schema (drawDB export)
@@ -158,7 +161,8 @@ Run notebooks **in this order** to reproduce the full pipeline:
 | 1 | `raw_eCO2data_cleaning_Diana.ipynb` | Diana | `data/clean/co2_clean.csv` |
 | 2 | `wrangle_clean_irene.ipynb` | Irene | `data/clean/gdp_pop_clean.csv` |
 | 3 | `final_clean_merge.ipynb` | Team | `data/clean/merged_final.csv` |
-| 4 | `eda_hypothesis_testing_Diana.ipynb` | Diana | Figures + findings |
+| 4 | `eda_hypothesis_testing_Diana.ipynb` | Diana | Figures + H1 & H2 findings |
+| 5 | `eda_hypothesis_testing_irene.ipynb` | Irene | Figures + H3 findings |
 
 All paths are managed via `cfg.yaml` — no hardcoded paths in any notebook.
 
@@ -191,7 +195,7 @@ Sources: UN GDP data, UN Population data, World Bank renewables data.
 | 2 | Duplicate check | Confirmed zero duplicates across all source files |
 | 3 | Column renaming | Standardised to `country`, `year`, `GDP`, `prct_access_elec`, `prct_renew_prod`, `prct_renew_cons` |
 | 4 | Unit column drop | Removed `Unit` metadata column (currency label, not needed for analysis) |
-| 5 | Wide-to-long reshape | World Bank data pivoted from year-as-columns to long format using `pd.melt()` on year columns |
+| 5 | Wide-to-long reshape | World Bank data pivoted from year-as-columns to long format using `pd.melt()` |
 | 6 | Long-to-wide pivot | Melted rows pivoted back on `series_name` to produce one column per indicator per country-year |
 | 7 | Type conversion | `..` strings (World Bank missing marker) converted to NaN and dropped; `year` enforced as integer |
 | 8 | GDP per capita | Computed `gdp_per_cap = GDP / population` |
@@ -199,27 +203,30 @@ Sources: UN GDP data, UN Population data, World Bank renewables data.
 
 ### Team — `final_clean_merge.ipynb`
 
+| # | Technique | Detail |
+|---|-----------|--------|
 | 1 | Multi-source merge | Joined renewables + GDP/population + CO₂/energy datasets on `country` + `year` |
 | 2 | Country name harmonisation | Resolved naming mismatches across UN, World Bank, and OWID conventions |
-| 3 | Secondary source merge | World Bank GDP/population data merged as a secondary source to fill gaps left by UN data |
-| 4 | Null imputation | Missing `GDP`, `gdp_per_cap`, and `population` values filled from the secondary World Bank source using `.fillna()` before dropping redundant columns |
-| 5 | Duplicate column cleanup | Post-merge `_x`/`_y` suffixed columns collapsed and renamed to clean final names |
+| 3 | Secondary source merge | World Bank GDP/population data merged as secondary source to fill UN data gaps |
+| 4 | Null imputation | Missing `GDP`, `gdp_per_cap`, and `population` values filled from secondary source using `.fillna()` |
+| 5 | Duplicate column cleanup | Post-merge `_x`/`_y` suffixed columns collapsed and renamed |
 | 6 | Final null check | Confirmed zero nulls across all 13 columns after imputation |
 | 7 | Final shape | 1,323 rows × 13 columns — clean, zero nulls, exported via config path |
 
 ---
 
-## Derived Metrics (EDA Notebook)
+## Derived Metrics (EDA Notebooks)
 
-| Column | Formula | Purpose |
-|--------|---------|---------|
-| `co2_int` | `co2 / GDP` | CO₂ intensity — Scenario A (fossil + industrial only) |
-| `co2_luc_int` | `co2_luc / GDP` | CO₂ intensity — Scenario B (full footprint) |
-| `d_co2_int` | year-over-year diff of `co2_int` per country | Rate of decoupling |
-| `d_co2_luc_int` | year-over-year diff of `co2_luc_int` per country | Rate of decoupling (full footprint, Scenario B) |
-| `d_renew_share` | year-over-year diff of `prct_renew_cons` per country | Rate of renewable adoption |
-| `co2_per_cap` | `co2 / population` | CO₂ burden per person |
-| `welfare_ratio` | `prct_access_elec / co2_per_cap` | Energy benefit per unit of emissions — H3 exploitation index |
+| Column | Formula | Notebook | Purpose |
+|--------|---------|----------|---------|
+| `co2_int` | `co2 / GDP` | Diana | CO₂ intensity — Scenario A (fossil + industrial only) |
+| `co2_luc_int` | `co2_luc / GDP` | Diana | CO₂ intensity — Scenario B (full footprint incl. land-use) |
+| `d_co2_int` | year-over-year diff of `co2_int` per country | Diana | Rate of decoupling (Scenario A) |
+| `d_co2_luc_int` | year-over-year diff of `co2_luc_int` per country | Diana | Rate of decoupling (Scenario B) |
+| `d_renew_share` | year-over-year diff of `prct_renew_cons` per country | Diana | Rate of renewable adoption |
+| `co2_per_cap` | `(co2 * 1_000_000) / population` | Irene | CO₂ burden per person (tonnes) |
+| `welfare_ratio` | `co2_per_cap / (prct_access_elec / 100)` | Irene | CO₂ cost per unit of electricity benefit received |
+| `gdp_group` | `pd.qcut(gdp_per_cap, q=4)` | Irene | Wealth quartile classification (Q1 poorest → Q4 richest) |
 
 ---
 
@@ -247,37 +254,45 @@ The relational schema is fully designed and normalised to **3NF**. No database w
 > ⚠️ Formal statistical tests still pending. These are preliminary observations from EDA.
 
 ### H1 — CO₂ Intensity Decline (Scenarios A & B)
+
+**Scenario A (fossil + industrial, `co2_int`):**
 - **Europe** is the only region showing a consistent downward CO₂ intensity trend across the full 2014–2020 window.
 - **Asia** holds the highest CO₂ intensity by far, with a sharp spike in 2019–2020.
 - **South America** diverges upward after 2017, bucking the global trend.
-- Most regions declined 2015–2018, then reversed after 2018 — the 2020 dip in some regions is partly COVID-driven, not structural decoupling.
-- **Scenario A vs B:** adding land-use change (Scenario B) shifts the absolute intensity values; regions where co2_luc_int diverges significantly from co2_int are likely displacing emissions, not eliminating them.
+- Most regions declined 2015–2018, then reversed after 2018. The 2020 dip in some regions is partly COVID-driven, not structural decoupling.
+
+**Scenario B (full footprint including land-use, `co2_luc_int`):**
+- **Africa** replaces Asia as the most intense region when land-use is included.
+- **South America** moves sharply closer to Asia — land-use change (primarily deforestation) is the mechanism. The gap between Scenario A and B for South America is the clearest evidence of **emissions displacement rather than elimination**.
+- Europe remains the least CO₂-intense region across both scenarios.
 
 ### H2 — Renewable Penetration as the Mechanism
-- Renewable growth correlates with CO₂ intensity decline in **Asia [2016–2019]** and **Europe [2016–2017]**, but not in North America or Oceania.
-- A consistent **production/consumption gap** is visible — several regions produce more renewables than they consume domestically, suggesting export rather than domestic decarbonisation.
-- **Verdict:** H2 is partially supported. Renewables are a contributing factor, not the sole driver of decoupling.
 
-### H3 — Electricity Access & CO₂ (Pending)
-> To be completed once Irene's analysis is delivered.
+- Renewable-to-CO₂ correlation is region- and period-specific: Europe, North America and South America do show clearer signals; Africa, Asia and Oceania  show none.
+- The production/consumption gap reveals an export dynamic: some regions produce more renewables than they consume domestically. Specially for the regions Africa, Asia, Oceania and North America
+  
+- **H2 Verdict:** partially supported. Renewables are a contributing factor but not the sole driver.
+- some regions show a widening gap between renewable production and consumption, suggesting clean energy is being exported rather than used to decarbonise domestic energy systems.
+
+### H3 — Electricity Access & CO₂
+
+- **Wealth-access relationship confirmed:** richer regions have near-universal electricity access; Africa averages ~50% despite being a globally significant total emitter.
+- **Mid-income countries (Q3) are the heaviest total emitters** — more than the richest group, suggesting peak industrialisation drives absolute emissions more than wealth itself. CO₂ per capita, however, rises consistently with wealth.
+- **High-emissions, low-access pattern is real and concentrated:** India, Russia, Indonesia, Nigeria, and South Africa generate above-median CO₂ while significant portions of their populations lack electricity access.
+- **Nigeria is the starkest case:** among the lowest electricity access (~56%) in the top 15 total emitters — emissions clearly not serving its own population.
+- **Electricity access improved across all regions 2014–2020**, but Africa's gap relative to the rest remains large at period end.
+- **Verdict:** H3 is partially confirmed. The wealth-access relationship is clearly supported and the high-CO₂/low-access pattern is real. Confirming the full exploitation framing would require additional trade/export-of-emissions evidence.
 
 ---
 
 ## Known Limitations
 
-- **COVID 2020:** the CO₂ dip visible in 2020 for some regions is partly driven by the economic contraction, not structural decoupling — interpretation of H1 endpoint deltas requires this caveat.
-- **GDP metric:** OWID PPP (2011 international $) — absolute intensity values are not current USD. Cross-country comparisons and time-series trends are valid, but headline numbers shouldn't be read as present-day dollar values.
-- `prct_renew_prod` (kWh) and `prct_renew_prod` (%) are from different World Bank series — units confirmed before use.
-- **Africa data anomalies:** CO₂ patterns for some African countries look inconsistent — flagged during H2 analysis, under investigation.
+- **COVID 2020:** the CO₂ dip visible in 2020 for some regions is partly driven by economic contraction, not structural decoupling — endpoint delta interpretation requires this caveat.
+- **GDP metric:** OWID uses PPP (2011 international $). Valid for trend comparison, but not current USD headline numbers.
+
+- **Africa data:** Africa's trend is outlier-sensitive and requires country-level decomposition before any regional claim holds.
+- **Total CO₂ size bias (H3):** large countries like India and Russia will always appear in high-emission rankings by total volume regardless of efficiency. Per-capita figures should be read alongside totals.
+- **Electricity access reporting lag:** World Bank data for some African nations may lag real conditions by 1–2 years.
 - Country name mismatches between UN, World Bank, and OWID required manual harmonisation in `final_clean_merge.ipynb`.
-- **H3 pending:** electricity access ↔ CO₂ analysis not yet completed (Irene).
 
----
 
-## Contributors
-
-| Name | Notebooks | Responsibilities |
-|------|-----------|-----------------|
-| Diana Yule | `raw_eCO2data_cleaning_Diana.ipynb`, `eda_hypothesis_testing_Diana.ipynb` | CO₂ data cleaning, region mapping, EDA, hypothesis 1 & 2 |
-| Irene Fafian | `wrangle_clean_irene.ipynb` | GDP, population, renewables cleaning; hypothesis 3 |
-| Both | `final_clean_merge.ipynb` | Final merge, country name harmonisation |
