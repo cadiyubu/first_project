@@ -2,7 +2,7 @@
 
 **Module 1 Capstone — Data Wrangling & Retrieval | Ironhack Data Analytics Bootcamp**  
 **Team:** Diana Yule · Irene Fafian  
-**Week:** 4 | **Status:** 🔬 EDA & Hypothesis Testing In Progress
+**Week:** 4 | **Status:** 📊 EDA Complete (H1 & H2) | H3 Pending
 
 ---
 
@@ -12,9 +12,7 @@ Can countries grow their economies without growing their carbon footprint?
 
 This project investigates whether countries are successfully **decoupling GDP growth from CO₂ emissions** — one of the defining questions of the post-Paris Agreement era. Using global emissions, energy production and consumption, GDP, and electricity access data spanning 2014–2024, we clean build, clean, and analyse a unified dataset to test this question accross world region.
 
-The analysis uses the **post-Paris Agreement window (2014–2024)** as the evaluation frame — a period where policy momentum should, in theory, be visible in the data.
-
-The 2014–2020 window is our evaluation frame: a period where climate policy momentum should, in theory, be visible in the data. The three hypotheses below move from diagnosis (is decoupling happening?) to mechanism (what explains it?) to consequence (who actually bears the cost?).
+The analysis uses the **post-Paris Agreement window (2014–2020)** as the evaluation frame — a period where climate policy momentum should, in theory, be visible in the data. The three hypotheses below move from diagnosis (is decoupling happening?) to mechanism (what explains it?) to consequence (who actually bears the cost?).
 
 ---
 
@@ -216,6 +214,7 @@ Sources: UN GDP data, UN Population data, World Bank renewables data.
 | `co2_int` | `co2 / GDP` | CO₂ intensity — Scenario A (fossil + industrial only) |
 | `co2_luc_int` | `co2_luc / GDP` | CO₂ intensity — Scenario B (full footprint) |
 | `d_co2_int` | year-over-year diff of `co2_int` per country | Rate of decoupling |
+| `d_co2_luc_int` | year-over-year diff of `co2_luc_int` per country | Rate of decoupling (full footprint, Scenario B) |
 | `d_renew_share` | year-over-year diff of `prct_renew_cons` per country | Rate of renewable adoption |
 | `co2_per_cap` | `co2 / population` | CO₂ burden per person |
 | `welfare_ratio` | `prct_access_elec / co2_per_cap` | Energy benefit per unit of emissions — H3 exploitation index |
@@ -243,16 +242,33 @@ The relational schema is fully designed and normalised to **3NF**. No database w
 
 ## Key Findings
 
-> 🚧 To be completed after hypothesis testing is finalised
+> ⚠️ Formal statistical tests still pending. These are preliminary observations from EDA.
+
+### H1 — CO₂ Intensity Decline (Scenarios A & B)
+- **Europe** is the only region showing a consistent downward CO₂ intensity trend across the full 2014–2020 window.
+- **Asia** holds the highest CO₂ intensity by far, with a sharp spike in 2019–2020.
+- **South America** diverges upward after 2017, bucking the global trend.
+- Most regions declined 2015–2018, then reversed after 2018 — the 2020 dip in some regions is partly COVID-driven, not structural decoupling.
+- **Scenario A vs B:** adding land-use change (Scenario B) shifts the absolute intensity values; regions where co2_luc_int diverges significantly from co2_int are likely displacing emissions, not eliminating them.
+
+### H2 — Renewable Penetration as the Mechanism
+- Renewable growth correlates with CO₂ intensity decline in **Asia [2016–2019]** and **Europe [2016–2017]**, but not in North America or Oceania.
+- A consistent **production/consumption gap** is visible — several regions produce more renewables than they consume domestically, suggesting export rather than domestic decarbonisation.
+- **Verdict:** H2 is partially supported. Renewables are a contributing factor, not the sole driver of decoupling.
+
+### H3 — Electricity Access & CO₂ (Pending)
+> To be completed once Irene's analysis is delivered.
 
 ---
 
 ## Known Limitations
 
-- `2020–2021` COVID dip artificially suppresses CO₂ — trend interpretation requires this caveat
-- `prct_renew_prod` (kWh) and `prct_renew_prod` (%) are from different World Bank series — units confirmed before use
-- Country name mismatches between UN, World Bank, and OWID required manual harmonisation in `final_clean_merge.ipynb`
-- Hypothesis 3 (electricity access ↔ CO₂) is pending Irene's contribution
+- **COVID 2020:** the CO₂ dip visible in 2020 for some regions is partly driven by the economic contraction, not structural decoupling — interpretation of H1 endpoint deltas requires this caveat.
+- **GDP metric:** OWID PPP (2011 international $) — absolute intensity values are not current USD. Cross-country comparisons and time-series trends are valid, but headline numbers shouldn't be read as present-day dollar values.
+- `prct_renew_prod` (kWh) and `prct_renew_prod` (%) are from different World Bank series — units confirmed before use.
+- **Africa data anomalies:** CO₂ patterns for some African countries look inconsistent — flagged during H2 analysis, under investigation.
+- Country name mismatches between UN, World Bank, and OWID required manual harmonisation in `final_clean_merge.ipynb`.
+- **H3 pending:** electricity access ↔ CO₂ analysis not yet completed (Irene).
 
 ---
 
