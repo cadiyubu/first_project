@@ -35,13 +35,15 @@ Following Hypothesis 1, this asks *why* intensity fell (or didn't): is renewable
 Metrics: `d_co2_int` (annual Δ CO₂ intensity) vs `d_renew_share` (annual Δ renewable consumption share).
 
 ### Hypothesis 3 — Electricity Access & CO₂
-> **Do high CO₂ emissions reflect development and improved living standards (high GDP), or can they coexist with energy poverty, indicating that a country is polluting on behalf of others?**
+> **Do high CO₂ emissions always reflect development and improved living standards, or can they coexist with energy poverty?**
 
-Metric: `co2_per_cap = co2 / population` (total emissions burden per person, regardless of wealth)
-Metric: `welfare_ratio = prct_access_elec / co2_per_cap` -> how much energy access a population gains per unit of CO₂ emitted (higher = emissions are translating into citizen benefit; lower = emissions are not)
+Metrics:
+- gdp_per_cap vs prct_access_elec → Tests whether richer countries and regions tend to have better electricity access.
+- gdp_group vs prct_access_elec → Compares poor, middle-income, and rich countries to see whether development is associated with higher access, total emissions, and personal carbon footprints.
+- co2 (total, not per capita) vs prct_access_elec → Identifies countries with high total emissions but below-median electricity access.
+- co2_per_cap as a control → Helps distinguish between countries where emissions are high because individuals consume a lot, and countries where total emissions are high mainly because of population size or industrial scale.
 
->If high co2_per_cap coexists with low prct_access_elec → the country is polluting without its population benefiting, suggesting emissions driven by extraction or manufacturing for others.
-If welfare_ratio is lowest in the poorest nations → high emissions in developing countries signal exploitation, not development.
+>If countries with low or middle gdp_per_cap and below-median prct_access_elec still show significant total co2, then emissions are not necessarily translating into universal energy access. If co2_per_cap emains relatively low in those same countries, the pattern suggests that the carbon burden is spread across a large population that may not be receiving proportional welfare benefits.
 
 ---
 
