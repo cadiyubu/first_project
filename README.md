@@ -158,10 +158,10 @@ Run notebooks **in this order** to reproduce the full pipeline:
 
 | Step | Notebook | Owner | Output |
 |------|----------|-------|--------|
-| 1 | `raw_eCO2data_cleaning_Diana.ipynb` | Diana | `data/clean/co2_clean.csv` |
-| 2 | `wrangle_clean_irene.ipynb` | Irene | `data/clean/gdp_pop_clean.csv` |
-| 3 | `final_clean_merge.ipynb` | Team | `data/clean/merged_final.csv` |
-| 4 | `eda_hypothesis_testing_Diana.ipynb` | Diana | Figures + H1 & H2 findings |
+| 1 | `raw_eCO2data_cleaning_Diana.ipynb` | Diana | `data/clean/energy_co2_data_cleaned.csv` |
+| 2 | `wrangle_clean_irene.ipynb` | Irene | `data/clean/gdp_pop.csv` · `data/clean/renew.csv` |
+| 3 | `final_clean_merge.ipynb` | Team | `data/clean/final_df.csv` |
+| 4 | `eda_hypothesis_testing_Diana.ipynb` | Diana | Figures + H1 findings |
 | 5 | `eda_hypothesis_testing_irene.ipynb` | Irene | Figures + H3 findings |
 
 All paths are managed via `cfg.yaml` — no hardcoded paths in any notebook.
@@ -268,11 +268,10 @@ The relational schema is fully designed and normalised to **3NF**. No database w
 
 ### H2 — Renewable Penetration as the Mechanism
 
-- Renewable-to-CO₂ correlation is region- and period-specific: Europe, North America and South America do show clearer signals; Africa, Asia and Oceania  show none.
-- The production/consumption gap reveals an export dynamic: some regions produce more renewables than they consume domestically. Specially for the regions Africa, Asia, Oceania and North America
-  
-- **H2 Verdict:** partially supported. Renewables are a contributing factor but not the sole driver.
-- some regions show a widening gap between renewable production and consumption, suggesting clean energy is being exported rather than used to decarbonise domestic energy systems.
+- Renewable-to-CO₂ correlation is **region- and period-specific**: Europe, North America and South America show a closer relationship between renewable share and falling CO₂; Africa, Asia and Oceania show none.
+- **Africa, Asia and Oceania:** renewable production share has increased, but CO₂ emissions trend is also increasing — renewables are not yet relieving emissions pressure in these regions.
+- **The export signal:** for Africa, Asia, Oceania and North America, the gap between renewable production and consumption has widened over the period — more renewables are being produced than consumed domestically, suggesting clean energy is being exported rather than used to decarbonise local energy systems.
+- **H2 Verdict:** partially supported. Renewables are a contributing factor in some regions but not a universal driver. Higher renewable production alone cannot be concluded to drive CO₂ intensity change — the trends vary too much by region and the export dynamic complicates the picture.
 
 ### H3 — Electricity Access & CO₂
 
