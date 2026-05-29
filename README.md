@@ -251,7 +251,6 @@ The relational schema is fully designed and normalised to **3NF**. No database w
 
 ## Key Findings
 
-> ⚠️ Formal statistical tests still pending. These are preliminary observations from EDA.
 
 ### H1 — CO₂ Intensity Decline (Scenarios A & B)
 
@@ -287,7 +286,6 @@ The relational schema is fully designed and normalised to **3NF**. No database w
 ## Known Limitations
 
 - **COVID 2020:** the CO₂ dip visible in 2020 for some regions is partly driven by economic contraction, not structural decoupling — endpoint delta interpretation requires this caveat.
-- **GDP metric:** OWID uses PPP (2011 international $). Valid for trend comparison, but not current USD headline numbers.
 
 - **Africa data:** Africa's trend is outlier-sensitive and requires country-level decomposition before any regional claim holds.
 - **Total CO₂ size bias (H3):** large countries like India and Russia will always appear in high-emission rankings by total volume regardless of efficiency. Per-capita figures should be read alongside totals.
